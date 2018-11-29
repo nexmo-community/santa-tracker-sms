@@ -3,10 +3,7 @@ package com.nexmo.santa.location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class SantaLocationService {
@@ -66,9 +63,18 @@ public class SantaLocationService {
         // Since the timezones are keyed for the 24th and 25th of December, we can do a bit of
         // time travelling to test things out.
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(now);
+//        calendar.setTime(now);
         calendar.set(Calendar.MONTH, Calendar.DECEMBER);
-        calendar.set(Calendar.DATE, 24);
+
+        // We're going to skip a few locations doing this but if it's after 10am, assume that it's Christmas eve
+        // Otherwise it's Christmas Morning.
+        System.out.println(calendar.get(Calendar.HOUR_OF_DAY));
+        if (calendar.get(Calendar.HOUR_OF_DAY) > 10 && calendar.get(Calendar.MINUTE) > 0) {
+            calendar.set(Calendar.DATE, 24);
+        } else {
+            calendar.set(Calendar.DATE, 25);
+        }
+        System.out.println(calendar.getTime());
         return calendar.getTime();
     }
 }
