@@ -57,6 +57,6 @@ public class IncomingMessageController {
     }
 
     private String keywordToHandlerName(String keyword) {
-        return keyword.toLowerCase() + "KeywordHandler";
+        return keyword.toLowerCase().replaceAll("[^a-z0-9]", "") + "KeywordHandler";
     }
 }
